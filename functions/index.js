@@ -31,12 +31,17 @@ app.get('/screams', (req, res) => {
                 screamId: doc.id,
                 body: doc.data().body,
                 userHandle: doc.data.userHandle,
-                createdAt: doc.data().createdAt
+                createdAt: doc.data().createdAt,
+                commentCount: doc.data().commentCount,
+                likeCount: doc.data().likeCount
             });
-        })
+        });
         return res.json(screams);
     })
-    .catch(err => console.error(err));
+    .catch((err)=> {
+        console.error(err);
+        res.status(500).json({ error: err.code})
+    });
 })
 
 const FBAuth = (req, res, next) => {
@@ -73,6 +78,9 @@ const FBAuth = (req, res, next) => {
 }
 
 app.post('/scream', FBAuth, (req, res) => {
+    if (req.body.body.trim() === ''){
+        return res.status(400).json({ body: 'Body must not be empty'})
+    }
     const newScream = {
         body: req.body.body,
         userHandle: req.user.handle,
@@ -191,4 +199,3 @@ app.post('/login', (req, res) => {
 
 
 exports.api = functions.region('asia-east2').https.onRequest(app);
-
