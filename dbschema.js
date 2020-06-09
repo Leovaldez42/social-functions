@@ -18,8 +18,16 @@ let db = {
             likeCount: 5,
             commentCount: 3
         }
-    ]
-}
+    ],
+    comments: [
+        {
+            userHandle: 'user3',
+            screamId: 'nymEgGvYRXvokl8OMLo4',
+            body: 'nice one mate',
+            createdAt: '2020-06-02T13:38:56.552Z'
+        }
+    ],
+};
 
 const userDetails = {
     //Redux data 
